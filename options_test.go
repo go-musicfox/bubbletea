@@ -79,6 +79,30 @@ func TestOptions(t *testing.T) {
 		})
 	})
 
+	t.Run("hard tabs", func(t *testing.T) {
+		t.Parallel()
+		t.Run("enabled", func(t *testing.T) {
+			t.Parallel()
+			p := NewProgram(nil, WithHardTabs(true))
+			if !p.useHardTabs {
+				t.Errorf("expected useHardTabs to be true")
+			}
+			if !p.useHardTabsSet {
+				t.Errorf("expected useHardTabsSet to be true")
+			}
+		})
+		t.Run("disabled", func(t *testing.T) {
+			t.Parallel()
+			p := NewProgram(nil, WithHardTabs(false))
+			if p.useHardTabs {
+				t.Errorf("expected useHardTabs to be false")
+			}
+			if !p.useHardTabsSet {
+				t.Errorf("expected useHardTabsSet to be true")
+			}
+		})
+	})
+
 	t.Run("startup options", func(t *testing.T) {
 		exercise := func(t *testing.T, opt ProgramOption, fn func(*Program)) {
 			p := NewProgram(nil, opt)
